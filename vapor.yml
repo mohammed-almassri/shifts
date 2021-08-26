@@ -7,7 +7,6 @@ environments:
         database: shifts
         runtime: 'php-8.0:al2'
         build:
-            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
             - 'npm ci && npm run prod && rm -rf node_modules'
         deploy:
