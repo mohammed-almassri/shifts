@@ -45,25 +45,6 @@ class Employee extends BaseModel
         ')
         ->get();
 
-
-
-        // $ret =  Shift::selectRaw("
-        // sum(timediff(
-        //     timediff(shifts.end_time,shifts.start_time),
-        //     timediff(least(shifts.end_time,ss.end_time),greatest(shifts.start_time,ss.start_time))
-        // )) as off_time
-        // ")
-        // ->join('shift_statuses as ss',function($join){
-        //     $join->on('shifts.start_time','<=','ss.end_time')
-        //     ->on('shifts.end_time','>','ss.start_time')
-        //     ->on('shifts.employee_id','=','ss.employee_id')
-        //     ->on('shifts.shift_date','<=','ss.status_date')
-        //     ;
-        // })
-        // ->whereDate('shifts.shift_date',$date)
-        // ->where('shifts.employee_id',$this->id)
-        // ->toSql() 
-        // ;
         if($ret->first() && $ret->first()->off_time){
             return $ret->first()->off_time;
         }
