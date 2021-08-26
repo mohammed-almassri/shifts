@@ -1,9 +1,6 @@
 os:
   - linux
 language: php
-cache:
-  directories:
-    - $HOME/.composer/cache/files
 dist: trusty
 php:
   - '7.4'
