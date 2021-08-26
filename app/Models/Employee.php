@@ -9,4 +9,7 @@ class Employee extends BaseModel
 {
     protected $fillable = ['name'];
 
+    public function shifts(){
+        return $this->hasMany(Shift::class,'employee_id');
+    }
 }
