@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeesRequest;
+use App\Http\Resources\EmployeeOffTimeResource;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Core\App\Traits\IsController;
@@ -28,5 +29,10 @@ class EmployeesController extends Controller
             \DB::rollback();
             return $this->errorResponse([], '',500,$e);
         }
+    }
+
+    public function offTime($id,$date){
+        $e = Employee::findOrFail($id);
+       return $this->successResponse(new EmployeeOffTimeResource($e,$date),'');
     }
 }
