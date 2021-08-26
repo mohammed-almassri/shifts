@@ -12,4 +12,8 @@ class Employee extends BaseModel
     public function shifts(){
         return $this->hasMany(Shift::class,'employee_id');
     }
+
+    public function shiftStatuses(){
+        return $this->hasMany(ShiftStatus::class,'employee_id');
+    }
 }
