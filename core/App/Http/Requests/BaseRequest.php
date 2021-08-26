@@ -2,7 +2,7 @@
 
 namespace Core\App\Http\Requests;
 
-use App\Traits\SendsApiResponse;
+use Core\App\Traits\SendsApiResponse;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
