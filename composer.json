@@ -10,7 +10,10 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "laravel/vapor-cli": "^1.24",
+        "laravel/vapor-core": "^2.12",
+        "ramsey/uuid": "^4.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -18,11 +21,13 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
+        "barryvdh/laravel-ide-helper": "^2.9",
         "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
+            "Core\\": "core/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
