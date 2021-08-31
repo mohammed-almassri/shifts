@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace'=>'App\Http\Controllers\API'],function(){
     Route::apiResource('employees','EmployeesController');
-    Route::get('employees/{id}/offTime/{date}','EmployeesController@offTime')->name('employees.offTime');
+    Route::get('employees/{employee}/offTime/{date}','EmployeesOffTimeController@show')->name('employees.offTime.show');
 });

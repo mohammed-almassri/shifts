@@ -20,9 +20,4 @@ class EmployeesController extends Controller
         $employee = Employee::create($request->validated());
         return new EmployeeResource($employee);
     }
-
-    public function offTime($id,$date){
-        $e = Employee::findOrFail($id);
-       return $this->successResponse(new EmployeeOffTimeResource($e,$date),'');
-    }
 }

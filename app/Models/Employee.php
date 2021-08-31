@@ -37,6 +37,6 @@ class Employee extends BaseModel
                 $off_time_seconds -= min($shift_end,$status_end)-max($shift_start,$status_start);
             }
         }
-        return Helpers::secToTime($off_time_seconds);
+        return $off_time_seconds;
     }
 }
