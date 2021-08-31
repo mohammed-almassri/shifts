@@ -24,18 +24,17 @@ class EmployeesOffTimeControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $emp = Employee::factory()->create()->first();
-        Shift::create([
-            'start_time' => '10:00:00',
-            'end_time' => '12:00:00',
-            'shift_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
-        ShiftStatus::create([
-            'start_time' => '09:30:00',
-            'end_time' => '11:30:00',
-            'status_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
+        $this->createShift(
+            '10:00:00',
+            '12:00:00',
+            $emp->id
+        );
+
+        $this->createStatus(
+            '09:30:00',
+            '11:30:00',
+            $emp->id,
+        );
         $response = $this->get(route('employees.offTime.show', ['employee' => $emp->id, 'date' => '2021-08-26']));
         $response->assertOk();
         $this->assertEquals('00:30:00', $response->getData()->data->off_time);
@@ -44,18 +43,16 @@ class EmployeesOffTimeControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $emp = Employee::factory()->create()->first();
-        Shift::create([
-            'start_time' => '10:00:00',
-            'end_time' => '12:00:00',
-            'shift_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
-        ShiftStatus::create([
-            'start_time' => '10:30:00',
-            'end_time' => '11:30:00',
-            'status_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
+        $this->createShift(
+            '10:00:00',
+            '12:00:00',
+            $emp->id
+        );
+        $this->createStatus(
+            '10:30:00',
+            '11:30:00',
+            $emp->id,
+        );
         $response = $this->get(route('employees.offTime.show', ['employee' => $emp->id, 'date' => '2021-08-26']));
         $response->assertOk();
         $this->assertEquals('01:00:00', $response->getData()->data->off_time);
@@ -64,18 +61,16 @@ class EmployeesOffTimeControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $emp = Employee::factory()->create()->first();
-        Shift::create([
-            'start_time' => '10:00:00',
-            'end_time' => '12:00:00',
-            'shift_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
-        ShiftStatus::create([
-            'start_time' => '09:30:00',
-            'end_time' => '12:30:00',
-            'status_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
+        $this->createShift(
+            '10:00:00',
+            '12:00:00',
+            $emp->id
+        );
+        $this->createStatus(
+            '09:30:00',
+            '12:30:00',
+            $emp->id,
+        );
         $response = $this->get(route('employees.offTime.show', ['employee' => $emp->id, 'date' => '2021-08-26']));
         $response->assertOk();
         $this->assertEquals('00:00:00', $response->getData()->data->off_time);
@@ -84,18 +79,16 @@ class EmployeesOffTimeControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $emp = Employee::factory()->create()->first();
-        Shift::create([
-            'start_time' => '10:00:00',
-            'end_time' => '12:00:00',
-            'shift_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
-        ShiftStatus::create([
-            'start_time' => '10:30:00',
-            'end_time' => '12:30:00',
-            'status_date' => '2021-08-26',
-            'employee_id' => $emp->id,
-        ]);
+        $this->createShift(
+            '10:00:00',
+            '12:00:00',
+            $emp->id
+        );
+        $this->createStatus(
+            '10:30:00',
+            '12:30:00',
+            $emp->id,
+        );
         $response = $this->get(route('employees.offTime.show', ['employee' => $emp->id, 'date' => '2021-08-26']));
         $response->assertOk();
         $this->assertEquals('00:30:00', $response->getData()->data->off_time);
@@ -104,18 +97,18 @@ class EmployeesOffTimeControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $emp = Employee::factory()->create()->first();
-        Shift::create(['start_time' => '10:00:00', 'end_time' => '12:00:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        Shift::create(['start_time' => '12:30:00', 'end_time' => '14:30:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        Shift::create(['start_time' => '15:00:00', 'end_time' => '17:00:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        Shift::create(['start_time' => '17:30:00', 'end_time' => '19:30:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '09:45:00', 'end_time' => '12:15:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '13:00:00', 'end_time' => '14:15:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '14:50:00', 'end_time' => '15:05:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '15:10:00', 'end_time' => '16:00:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '16:10:00', 'end_time' => '16:30:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '17:15:00', 'end_time' => '17:20:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '17:40:00', 'end_time' => '17:50:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '19:45:00', 'end_time' => '19:50:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
+        $this->createShift('10:00:00', '12:00:00', $emp->id);
+        $this->createShift('12:30:00', '14:30:00', $emp->id);
+        $this->createShift('15:00:00', '17:00:00', $emp->id);
+        $this->createShift('17:30:00', '19:30:00', $emp->id);
+        $this->createStatus('09:45:00', '12:15:00', $emp->id);
+        $this->createStatus('13:00:00', '14:15:00', $emp->id);
+        $this->createStatus('14:50:00', '15:05:00', $emp->id);
+        $this->createStatus('15:10:00', '16:00:00', $emp->id);
+        $this->createStatus('16:10:00', '16:30:00', $emp->id);
+        $this->createStatus('17:15:00', '17:20:00', $emp->id);
+        $this->createStatus('17:40:00', '17:50:00', $emp->id);
+        $this->createStatus('19:45:00', '19:50:00', $emp->id);
         $response = $this->get(route('employees.offTime.show', ['employee' => $emp->id, 'date' => '2021-08-26']));
         $response->assertOk();
         $this->assertEquals('03:20:00', $response->getData()->data->off_time);
@@ -124,20 +117,29 @@ class EmployeesOffTimeControllerTest extends TestCase
     public function testWorksOnlyForCorrectDayOnEmployeeOffTime()
     {
         $emp = Employee::factory()->create()->first();
-        Shift::create(['start_time' => '10:00:00', 'end_time' => '12:00:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        Shift::create(['start_time' => '12:30:00', 'end_time' => '14:30:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        Shift::create(['start_time' => '15:00:00', 'end_time' => '17:00:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        Shift::create(['start_time' => '17:30:00', 'end_time' => '19:30:00', 'shift_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '09:45:00', 'end_time' => '12:15:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '13:00:00', 'end_time' => '14:15:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '14:50:00', 'end_time' => '15:05:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '15:10:00', 'end_time' => '16:00:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '16:10:00', 'end_time' => '16:30:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '17:15:00', 'end_time' => '17:20:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '17:40:00', 'end_time' => '17:50:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
-        ShiftStatus::create(['start_time' => '19:45:00', 'end_time' => '19:50:00', 'status_date' => '2021-08-26', 'employee_id' => $emp->id,]);
+        $this->createShift('10:00:00', '12:00:00', $emp->id);
+        $this->createShift('12:30:00', '14:30:00', $emp->id);
+        $this->createShift('15:00:00', '17:00:00', $emp->id);
+        $this->createShift('17:30:00', '19:30:00', $emp->id);
+        $this->createStatus('09:45:00', '12:15:00', $emp->id);
+        $this->createStatus('13:00:00', '14:15:00', $emp->id);
+        $this->createStatus('14:50:00', '15:05:00', $emp->id);
+        $this->createStatus('15:10:00', '16:00:00', $emp->id);
+        $this->createStatus('16:10:00', '16:30:00', $emp->id);
+        $this->createStatus('17:15:00', '17:20:00', $emp->id);
+        $this->createStatus('17:40:00', '17:50:00', $emp->id);
+        $this->createStatus('19:45:00', '19:50:00', $emp->id);
         $response = $this->get(route('employees.offTime.show', ['employee' => $emp->id, 'date' => '2021-08-27']));
         $response->assertOk();
         $this->assertEquals('00:00:00', $response->getData()->data->off_time);
+    }
+
+    private function createShift($start, $end, $employee_id, $date = '2021-08-26')
+    {
+        return Shift::create(['start_time' => $start, 'end_time' => $end, 'shift_date' => $date, 'employee_id' => $employee_id,]);
+    }
+    private function createStatus($start, $end, $employee_id, $date = '2021-08-26')
+    {
+        return ShiftStatus::create(['start_time' => $start, 'end_time' => $end, 'status_date' => $date, 'employee_id' => $employee_id,]);
     }
 }
