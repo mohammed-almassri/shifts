@@ -8,7 +8,7 @@ use Core\App\Traits\HasFilters;
 
 class Employee extends BaseModel
 {
-    protected $fillable = ['name'];
+    protected $guarded = [];
 
     public function shifts(){
         return $this->hasMany(Shift::class,'employee_id');

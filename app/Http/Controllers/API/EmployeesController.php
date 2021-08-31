@@ -13,22 +13,12 @@ use Illuminate\Http\Request;
 class EmployeesController extends Controller
 {
     public function index(){
-        $data = Employee::all();
-        return $this->successResponse(EmployeeResource::collection($data),'');
+        return EmployeeResource::collection(Employee::paginate());
     }
 
     public function store(StoreEmployeesRequest $request){
-        \DB::beginTransaction();
-        try{
-            $e = Employee::create($request->all());
-            \DB::commit();
-            return $this->successResponse([],'',201);
-        }
-        catch(\Exception $e){
-            
-            \DB::rollback();
-            return $this->errorResponse([], '',500,$e);
-        }
+        $employee = Employee::create($request->validated());
+        return new EmployeeResource($employee);
     }
 
     public function offTime($id,$date){

@@ -18,8 +18,6 @@ class EmployeesControllerTest extends TestCase
        $response = $this->getJson(route('employees.index'));
        $response->assertOk();
        $response->assertJsonStructure([
-            'status',
-            'message',
             'data'=>[
                 '*'=>[
                     'id',
@@ -27,6 +25,8 @@ class EmployeesControllerTest extends TestCase
                     'created_at',
                 ]
             ],
+            'links',
+            'meta'
        ]);
    }
 
@@ -36,6 +36,13 @@ class EmployeesControllerTest extends TestCase
         $response->assertCreated();
         $this->assertCount(1,Employee::all());
         $this->assertDatabaseHas('employees',$data);
+        $response->assertJsonStructure([
+            'data'=>[
+                'id',
+                'name',
+                'created_at',
+            ]
+       ]);
    }
 
    public function testNameIsRequiredOnCreateEmployees(){
