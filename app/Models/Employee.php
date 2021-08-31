@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helpers;
 use Core\App\Models\BaseModel;
 use Core\App\Traits\HasFilters;
 
@@ -18,36 +19,24 @@ class Employee extends BaseModel
     }
 
     public function offTime($date){
-        $ret = \DB::table('shifts as s')
-        ->selectRaw('
-       Sec_to_time(Sum(Time_to_sec(timediff(
-            timediff(s.end_time,s.start_time)
-                ,
-            (select on_time from (
-            SELECT shifts.id,
-                   Sec_to_time(Sum(Time_to_sec(Timediff(Least(shifts.end_time, ss.end_time),
-                                               Greatest(shifts.start_time, ss.start_time))))
-                   ) AS
-                   on_time
-            FROM   `shifts`
-                   INNER JOIN `shift_statuses` AS `ss`
-                           ON `shifts`.`start_time` <= `ss`.`end_time`
-                              AND `shifts`.`end_time` > `ss`.`start_time`
-                              AND `shifts`.`employee_id` = `ss`.`employee_id`
-                              AND `shifts`.`shift_date` <= `ss`.`status_date`
-            WHERE  Date(`shifts`.`shift_date`) = "'.$date.'"
-                   AND `shifts`.`employee_id` = "'.$this->id.'"
-                   AND `shifts`.`deleted_at` IS NULL
-                    and `shifts`.id = s.id
-            GROUP  BY shifts.id
-            ) as u2)
-            )))) as off_time
-        ')
-        ->get();
+        $shifts = $this->shifts()->whereDate('shift_date',$date)->get();
+        $statuses = $this->shiftStatuses()->whereDate('status_date',$date)->get();
+        $off_time_seconds = 0;
+        foreach($shifts as $shift){
+            $shift_start = Helpers::timeToSec($shift->start_time);
+            $shift_end = Helpers::timeToSec($shift->end_time);
+            $off_time_seconds += $shift_end-$shift_start;
+            
+            $filtered_statuses = $statuses->filter(function($status) use($shift){
+                return $shift->start_time<=$status->end_time && $shift->end_time>$status->start_time;
+            });
 
-        if($ret->first() && $ret->first()->off_time){
-            return $ret->first()->off_time;
+            foreach($filtered_statuses as $status){
+                $status_start = Helpers::timeToSec($status->start_time);
+                $status_end = Helpers::timeToSec($status->end_time);
+                $off_time_seconds -= min($shift_end,$status_end)-max($shift_start,$status_start);
+            }
         }
-        return '00:00:00';
+        return Helpers::secToTime($off_time_seconds);
     }
 }
