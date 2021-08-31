@@ -14,17 +14,17 @@ class EmployeeOffTimeResource extends JsonResource
         // Ensure you call the parent constructor
         parent::__construct($resource);
         $this->resource = $resource;
-        
+
         $this->time = $time;
     }
 
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'created_at'=>$this->created_at,
-            'off_time'=>Helpers::secToTime($this->time),
+            'id' => $this->id,
+            'name' => $this->name,
+            'created_at' => $this->created_at,
+            'off_time' => Helpers::secToTime($this->time),
         ];
     }
 }

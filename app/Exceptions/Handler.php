@@ -41,24 +41,24 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        if(request()->expectsJson()){
+        if (request()->expectsJson()) {
             $this->renderable(function (AccessDeniedHttpException $exception) {
-                return $this->errorResponse([],__('lang.no_permission'), 403,$exception);
+                return $this->errorResponse([], __('lang.no_permission'), 403, $exception);
             });
-            
+
             $this->renderable(function (MethodNotAllowedHttpException $exception) {
-                return $this->errorResponse([],'The specified method for the request is invalid', 405,$exception);
+                return $this->errorResponse([], 'The specified method for the request is invalid', 405, $exception);
             });
-            
+
             $this->renderable(function (NotFoundHttpException $exception) {
-                return $this->errorResponse([],'The specified URL or resource cannot be found', 404,$exception);
+                return $this->errorResponse([], 'The specified URL or resource cannot be found', 404, $exception);
             });
-            
+
             $this->renderable(function (HttpException $exception) {
-                return $this->errorResponse([],$exception->getMessage(), $exception->getStatusCode(),$exception);
+                return $this->errorResponse([], $exception->getMessage(), $exception->getStatusCode(), $exception);
             });
             $this->renderable(function (Throwable $e) {
-                return $this->errorResponse([],__('lang.unknown_error'), 500,$e);
+                return $this->errorResponse([], __('lang.unknown_error'), 500, $e);
             });
         }
     }

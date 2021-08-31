@@ -13,26 +13,31 @@ use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return EmployeeResource::collection(Employee::paginate());
     }
 
-    public function store(StoreEmployeesRequest $request){
+    public function store(StoreEmployeesRequest $request)
+    {
         $employee = Employee::create($request->validated());
         return new EmployeeResource($employee);
     }
 
-    public function show(Employee $employee){
+    public function show(Employee $employee)
+    {
         return new EmployeeResource($employee);
     }
 
-    public function update(UpdateEmployeesRequest $request, Employee $employee){
+    public function update(UpdateEmployeesRequest $request, Employee $employee)
+    {
         $employee->update($request->validated());
         return new EmployeeResource($employee);
     }
 
-    public function destroy(Employee $employee){
+    public function destroy(Employee $employee)
+    {
         $employee->delete();
-        return response()->json([],204);
+        return response()->json([], 204);
     }
 }

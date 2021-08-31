@@ -10,7 +10,7 @@ class StoreEmployeesRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name'=>'required',
+            'name' => 'required',
         ];
     }
 }

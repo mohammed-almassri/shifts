@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 
 class EmployeesOffTimeController extends Controller
 {
-    public function show(Employee $employee,$date){
+    public function show(Employee $employee, $date)
+    {
         $off_time = $employee->offTime($date);
-       return new EmployeeOffTimeResource($employee,$off_time);
+        return new EmployeeOffTimeResource($employee, $off_time);
     }
 }
